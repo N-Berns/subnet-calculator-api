@@ -17,18 +17,16 @@ router.get("/", (req, res) => {
       .json({ error: "Missing required parameter: IP Address" });
   }
 
-  const provided = [subnets, hosts, cidr].filter(Boolean);
+  const cleanSubnets = subnets?.trim() || undefined;
+  const cleanHosts = hosts?.trim() || undefined;
+  const cleanCidr = cidr?.trim() || undefined;
+
+  const provided = [cleanSubnets, cleanHosts, cleanCidr].filter(Boolean);
 
   if (provided.length !== 1) {
     return res.status(400).json({
       error:
-        "Provided multiple parameters. Provide either CIDR, # of Subnets, or # of Hosts.",
-    });
-  }
-  if (provided.length > 1) {
-    return res.status(400).json({
-      error:
-        "Provided multiple parameters. Provide either CIDR, # of Subnets, or # of Hosts.",
+        "Provide exactly one of these parameters: CIDR, # of Subnets, or # of Hosts.",
     });
   }
 
