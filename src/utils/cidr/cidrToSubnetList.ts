@@ -61,6 +61,9 @@ export function CIDRtoSubnetList(
     // Network ID
     // 4th Octet exceeds byte range
     if (parseInt(ipArray[3], 10) + 1 > 255) {
+      ipArray[2] = (parseInt(ipArray[2], 10) + 1).toString();
+      ipArray[3] = "0";
+
       // 3rd Octet exceeds byte range
       if (parseInt(ipArray[2], 10) + 1 > 255) {
         ipArray[1] = (parseInt(ipArray[1], 10) + 1).toString();
